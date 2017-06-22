@@ -9,6 +9,8 @@ const merge = require('merge-stream');
 const server = require('browser-sync').create();
 const watch = require('../lib/bundler').watch;
 const getNamedBuffer = require('../lib/get-named-buffer');
+const sourcemaps = require('gulp-sourcemaps');
+const coffee = require('gulp-coffee');
 
 module.exports = function (gulp, $, config) {
   const dirs = config.dirs;
@@ -24,7 +26,7 @@ module.exports = function (gulp, $, config) {
       .on('update', task);
     return task();
     function task() {
-      return merge(lint(), rebuild());
+      return merge(coffee(), rebuild());
     }
     function rebuild() {
       return watcher
@@ -40,13 +42,12 @@ module.exports = function (gulp, $, config) {
   gulp.task('serve', ['bundleDev'], () => server.init(config.server.dev));
 
   // Check syntax and style of scripts and warn about potential issues.
-  function lint() {
-    return gulp.src(files.scripts)
-      .pipe($.cached('eslint'))
-      .pipe($.eslint())
-      .pipe($.eslint.format('stylish', process.stderr));
+  function coffee() {
+    return gulp.src(files.coffees)
+      .pipe(sourcemaps.init())
+      .pipe(coffee())
+      .pipe(sourcemaps.write());
   }
-  gulp.task('lint', lint);
 
   // The main development task.
   gulp.task('default', ['serve']);
