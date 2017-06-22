@@ -1,6 +1,6 @@
 Load Assets and display a splash-screen
 
-	import { gameAssets } from '../assets.litcoffee'
+	import { gameAssets } from '../assets'
 
 	export default class Preloader extends Phaser.State
 		preload: () ->
@@ -12,4 +12,4 @@ Load Assets and display a splash-screen
 
 		showSplashScreen: () ->
 			@add.image 0, 0, 'splash-screen'
-			@load.setPreloadSprite @add.image 82, 282, 'progress-ani'
+			@load.setPreloadSprite @add.image 82, 282, 'progress-bar'

@@ -1,6 +1,6 @@
 Game Config settings here ...
 
-	export {
+	settings = {
 
 Game Canvas Dimensions
 
@@ -15,3 +15,7 @@ Pixel Density
 
 		resolution: 1
 	}
+
+Let's export the Module
+
+	export { settings }

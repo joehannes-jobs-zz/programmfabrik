@@ -1,33 +1,24 @@
-/*
- * Preloader state
- * ===============
- *
- * Takes care of loading the main game assets, including graphics and sound
- * effects, while displaying a busy splash screen.
- */
+var Preloader;
 
-import {gameAssets} from '../assets';
+import {
+  gameAssets
+} from '../assets';
 
-export default class Preloader extends Phaser.State {
-
+export default Preloader = class Preloader extends Phaser.State {
   preload() {
     this.showSplashScreen();
-    this.load.pack('gameAssets', null, {gameAssets});
+    return this.load.pack('gameAssets', null, {gameAssets});
   }
 
   create() {
-    // Here is a good place to initialize plugins dependent of any game asset.
-    // Don't forget to `import` them first. Example:
-    //this.game.myPlugin = this.plugins.add(MyPlugin/*, ... parameters ... */);
-
-    this.state.start('Game');
+    return this.state.start('Game');
   }
-
-  // --------------------------------------------------------------------------
 
   showSplashScreen() {
     this.add.image(0, 0, 'splash-screen');
-    this.load.setPreloadSprite(this.add.image(82, 282, 'progress-bar'));
+    return this.load.setPreloadSprite(this.add.image(82, 282, 'progress-bar'));
   }
 
-}
+};
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YXRlcy9QcmVsb2FkZXIubGl0Y29mZmVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVDLElBQUE7O0FBQUEsT0FBQTtFQUFTLFVBQVQ7Q0FBQSxNQUFBOztBQUVBLE9BQUEsUUFBcUIsWUFBTixNQUFBLFVBQUEsUUFBd0IsTUFBTSxDQUFDLE1BQS9CO0VBQ2QsT0FBUyxDQUFBLENBQUE7SUFDUixJQUFDLENBQUEsZ0JBQUQsQ0FBQTtXQUNBLElBQUMsQ0FBQSxJQUFJLENBQUMsSUFBTixDQUFXLFlBQVgsRUFBeUIsSUFBekIsRUFBK0IsQ0FBRSxVQUFGLENBQS9CO0VBRlE7O0VBSVQsTUFBUSxDQUFBLENBQUE7V0FDUCxJQUFDLENBQUEsS0FBSyxDQUFDLEtBQVAsQ0FBYSxNQUFiO0VBRE87O0VBR1IsZ0JBQWtCLENBQUEsQ0FBQTtJQUNqQixJQUFDLENBQUEsR0FBRyxDQUFDLEtBQUwsQ0FBVyxDQUFYLEVBQWMsQ0FBZCxFQUFpQixlQUFqQjtXQUNBLElBQUMsQ0FBQSxJQUFJLENBQUMsZ0JBQU4sQ0FBdUIsSUFBQyxDQUFBLEdBQUcsQ0FBQyxLQUFMLENBQVcsRUFBWCxFQUFlLEdBQWYsRUFBb0IsY0FBcEIsQ0FBdkI7RUFGaUI7O0FBUkoiLCJmaWxlIjoic3RhdGVzL1ByZWxvYWRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbIkxvYWQgQXNzZXRzIGFuZCBkaXNwbGF5IGEgc3BsYXNoLXNjcmVlblxuXG5cdGltcG9ydCB7IGdhbWVBc3NldHMgfSBmcm9tICcuLi9hc3NldHMnXG5cblx0ZXhwb3J0IGRlZmF1bHQgY2xhc3MgUHJlbG9hZGVyIGV4dGVuZHMgUGhhc2VyLlN0YXRlXG5cdFx0cHJlbG9hZDogKCkgLT5cblx0XHRcdEBzaG93U3BsYXNoU2NyZWVuKClcblx0XHRcdEBsb2FkLnBhY2sgJ2dhbWVBc3NldHMnLCBudWxsLCB7IGdhbWVBc3NldHMgfVxuXG5cdFx0Y3JlYXRlOiAoKSAtPlxuXHRcdFx0QHN0YXRlLnN0YXJ0ICdHYW1lJ1xuXG5cdFx0c2hvd1NwbGFzaFNjcmVlbjogKCkgLT5cblx0XHRcdEBhZGQuaW1hZ2UgMCwgMCwgJ3NwbGFzaC1zY3JlZW4nXG5cdFx0XHRAbG9hZC5zZXRQcmVsb2FkU3ByaXRlIEBhZGQuaW1hZ2UgODIsIDI4MiwgJ3Byb2dyZXNzLWJhcidcbiJdfQ==

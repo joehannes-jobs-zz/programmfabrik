@@ -1,18 +1,10 @@
-/*
- * Game state
- * ==========
- *
- * A sample Game state, displaying the Phaser logo.
- */
+var Game;
 
-import Logo from '../objects/Logo';
-
-export default class Game extends Phaser.State {
-
+export default Game = class Game extends Phaser.State {
   create() {
-    // TODO: Replace this with a really cool game code here :)
-    const {centerX: x, centerY: y} = this.world;
-    this.add.existing(new Logo(this.game, x, y));
+    return console.log('hello, world');
   }
 
-}
+};
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YXRlcy9HYW1lLmxpdGNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFFQyxJQUFBOztBQUFBLE9BQUEsUUFBcUIsT0FBTixNQUFBLEtBQUEsUUFBbUIsTUFBTSxDQUFDLE1BQTFCO0VBQ2QsTUFBUSxDQUFBLENBQUE7V0FDUCxPQUFPLENBQUMsR0FBUixDQUFZLGNBQVo7RUFETzs7QUFETSIsImZpbGUiOiJzdGF0ZXMvR2FtZS5qcyIsInNvdXJjZXNDb250ZW50IjpbIk1haW4gR2FtZSBTdGF0ZVxuXG5cdGV4cG9ydCBkZWZhdWx0IGNsYXNzIEdhbWUgZXh0ZW5kcyBQaGFzZXIuU3RhdGVcblx0XHRjcmVhdGU6ICgpIC0+XG5cdFx0XHRjb25zb2xlLmxvZyAnaGVsbG8sIHdvcmxkJ1xuIl19

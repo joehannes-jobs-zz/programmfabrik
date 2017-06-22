@@ -6,7 +6,7 @@ Let there be a splash-screen
 		key: 'splash-screen'
 		type: 'image'
 	}, {
-		key: 'progress-ani'
+		key: 'progress-bar'
 		type: 'image'
 	}]
 

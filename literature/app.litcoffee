@@ -10,18 +10,18 @@ We'll need to import the babel-polyfill
 
 Now let's import our configuration and game states
 
-	import * as config from './config.litcoffee'
-	import * as states from './states.litcoffee'
+	import * as config from './config'
+	import * as states from './states'
 
 Kickoff!
 
 	init = () ->
 		game = new Phaser.Game config
-		game.state.add key, stat for key, state of Object.entries states
+		game.state.add state, states[state] for state of states
 		game.state.start 'Boot'
 
 		game
 
 Module Export ...
 
-	export init
+	export { init }
