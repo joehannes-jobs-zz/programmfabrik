@@ -5,7 +5,10 @@
 
 'use strict';
 
-// Where this project source code lives.
+// Where the literate/original source code lives
+const LIT = 'literature';
+
+// Where this project ES source code lives.
 const SRC = 'src';
 
 // Where final distribution files will be copied.
@@ -45,6 +48,7 @@ exports.files = {
 
   // Finds the scripts to be compiled.
   scripts: `${SRC}/**/*.js`,
+  coffees: `${LIT}/**/*.litcoffee`,
 
   // The selected Phaser script.
   phaser: PHASER

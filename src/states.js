@@ -1,11 +1,13 @@
-/*
- * `states` module
- * ===============
- *
- * Declares all present game states.
- * Expose the required game states using this module.
- */
+export {
+  default as Boot
+} from './states/Boot';
 
-export {default as Boot} from './states/Boot';
-export {default as Preloader} from './states/Preloader';
-export {default as Game} from './states/Game';
+export {
+  default as Preloader
+} from './states/Preloader';
+
+export {
+  default as Game
+} from './states/Game';
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YXRlcy5saXRjb2ZmZWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBRUMsT0FBQTtFQUFTLE9BQUEsUUFBVDtDQUFBOztBQUNBLE9BQUE7RUFBUyxPQUFBLGFBQVQ7Q0FBQTs7QUFDQSxPQUFBO0VBQVMsT0FBQSxRQUFUO0NBQUEiLCJmaWxlIjoic3RhdGVzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiRGVjbGFyZSB0aGUgR2FtZSBzdGF0ZXNcblxuXHRleHBvcnQgeyBkZWZhdWx0IGFzIEJvb3QgfSBmcm9tICcuL3N0YXRlcy9Cb290J1xuXHRleHBvcnQgeyBkZWZhdWx0IGFzIFByZWxvYWRlciB9IGZyb20gJy4vc3RhdGVzL1ByZWxvYWRlcidcblx0ZXhwb3J0IHsgZGVmYXVsdCBhcyBHYW1lIH0gZnJvbSAnLi9zdGF0ZXMvR2FtZSdcbiJdfQ==

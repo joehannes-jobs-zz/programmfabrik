@@ -1,56 +1,24 @@
-/*
- * Boot state
- * ==========
- *
- * The first state of the game, responsible for setting up some Phaser
- * features. Adjust the game appearance, number of input pointers, screen
- * orientation handling etc. using this game state.
- */
+var Boot;
 
-import {preloaderAssets} from '../assets';
+import {
+  preloaderAssets
+} from '../assets';
 
-export default class Boot extends Phaser.State {
-
+export default Boot = class Boot extends Phaser.State {
   preload() {
-    // Point the Phaser Asset Loader to where your game assets live.
     this.load.path = 'assets/';
-
-    // Initialize physics engines here. Remember that Phaser builds including
-    // Arcade Physics have it enabled by default.
-    //this.physics.startSystem(Phaser.Physics.P2);
-
-    // Adjust how many pointers Phaser will check for input events.
-    this.input.maxPointers = 2;
-
-    // Set the alignment of the game canvas within the page.
+    this.input.maxPointers = 1;
     this.scale.pageAlignHorizontally = true;
-
-    // Adjust the scaling mode of the game canvas.
-    // Example: If you're developing a pixel-art game, set it to 'USER_SCALE'.
     this.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
-
-    // When using 'USER_SCALE' scaling mode, use this method to adjust the
-    // scaling factor.
-    //this.scale.setUserScale(2);
-
-    // Uncomment the following line to adjust the rendering of the canvas to
-    // crisp graphics. Great for pixel art!
-    //Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-
-    // If the game canvas loses focus, keep the game loop running.
     this.stage.disableVisibilityChange = true;
-
-    // Whether to use frame-based interpolations or not.
     this.tweens.frameBased = false;
-
-    // Load the graphical assets required to show the splash screen.
-    this.load.pack('preloaderAssets', null, {preloaderAssets});
+    return this.load.pack('preloaderAssets', null, {preloaderAssets});
   }
 
   create() {
-    // After applying the first adjustments and loading the splash screen
-    // assets, move to the next game state.
-    this.state.start('Preloader');
+    return this.state.start('Preloader');
   }
 
-}
+};
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YXRlcy9Cb290LmxpdGNvZmZlZSJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFFQyxJQUFBOztBQUFBLE9BQUE7RUFBUyxlQUFUO0NBQUEsTUFBQTs7QUFFQSxPQUFBLFFBQXFCLE9BQU4sTUFBQSxLQUFBLFFBQW1CLE1BQU0sQ0FBQyxNQUExQjtFQUNkLE9BQVMsQ0FBQSxDQUFBO0lBSVIsSUFBQyxDQUFBLElBQUksQ0FBQyxJQUFOLEdBQWE7SUFJYixJQUFDLENBQUEsS0FBSyxDQUFDLFdBQVAsR0FBcUI7SUFFckIsSUFBQyxDQUFBLEtBQUssQ0FBQyxxQkFBUCxHQUErQjtJQUMvQixJQUFDLENBQUEsS0FBSyxDQUFDLFNBQVAsR0FBbUIsTUFBTSxDQUFDLFlBQVksQ0FBQztJQUl2QyxJQUFDLENBQUEsS0FBSyxDQUFDLHVCQUFQLEdBQWlDO0lBQ2pDLElBQUMsQ0FBQSxNQUFNLENBQUMsVUFBUixHQUFxQjtXQUlyQixJQUFDLENBQUEsSUFBSSxDQUFDLElBQU4sQ0FBVyxpQkFBWCxFQUE4QixJQUE5QixFQUFvQyxDQUFFLGVBQUYsQ0FBcEM7RUFwQlE7O0VBc0JULE1BQVEsQ0FBQSxDQUFBO1dBQ1AsSUFBQyxDQUFBLEtBQUssQ0FBQyxLQUFQLENBQWEsV0FBYjtFQURPOztBQXZCTSIsImZpbGUiOiJzdGF0ZXMvQm9vdC5qcyIsInNvdXJjZXNDb250ZW50IjpbIkJvb3QgU3RhdGUsIHJlc3BvbnNpYmxlIGZvciBzZXR0aW4gdXAgc29tZSBQaGFzZXIgZmVhdHVyZXNcblxuXHRpbXBvcnQgeyBwcmVsb2FkZXJBc3NldHMgfSBmcm9tICcuLi9hc3NldHMnXG5cblx0ZXhwb3J0IGRlZmF1bHQgY2xhc3MgQm9vdCBleHRlbmRzIFBoYXNlci5TdGF0ZVxuXHRcdHByZWxvYWQ6ICgpIC0+XG5cblBhdGggdG8gdGhlIEFzc2V0cyAuLi5cblxuXHRcdFx0QGxvYWQucGF0aCA9ICdhc3NldHMvJztcblxuQWRqdXN0IGhvdyBtYW55IHBvaW50ZXJzIGFyZSBjaGVja2VkIGZvciBpbnB1dCBldmVudHNcblxuXHRcdFx0QGlucHV0Lm1heFBvaW50ZXJzID0gMVxuXG5cdFx0XHRAc2NhbGUucGFnZUFsaWduSG9yaXpvbnRhbGx5ID0gdHJ1ZVxuXHRcdFx0QHNjYWxlLnNjYWxlTW9kZSA9IFBoYXNlci5TY2FsZU1hbmFnZXIuTk9fU0NBTEVcblxuSWYgdGhlIGdhbWUgY2FudmFzIGxvc2VzIGZvY3VzLCBrZWVwIHRoZSBnYW1lIGxvb3AgcnVubmluZ1xuXG5cdFx0XHRAc3RhZ2UuZGlzYWJsZVZpc2liaWxpdHlDaGFuZ2UgPSB0cnVlXG5cdFx0XHRAdHdlZW5zLmZyYW1lQmFzZWQgPSBmYWxzZVxuXG5Mb2FkIHRoZSBncmFwaGljYWwgYXNzZXRzIHJlcXVpcmVkIHRvIHNob3cgdGhlIHNwbGFzaC1zY3JlZW5cblxuXHRcdFx0QGxvYWQucGFjayAncHJlbG9hZGVyQXNzZXRzJywgbnVsbCwgeyBwcmVsb2FkZXJBc3NldHMgfVxuXG5cdFx0Y3JlYXRlOiAoKSAtPlxuXHRcdFx0QHN0YXRlLnN0YXJ0ICdQcmVsb2FkZXInXG4iXX0=

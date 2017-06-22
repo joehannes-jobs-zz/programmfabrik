@@ -1,26 +1,23 @@
-/*
- * `app` module
- * ============
- *
- * Provides the game initialization routine.
- */
+var init;
 
-// Required: import Babel polyfills.
 import 'babel-polyfill';
 
-// Import configuration and game states.
 import * as config from './config';
+
 import * as states from './states';
 
-export function init() {
-  const game = new Phaser.Game(config);
-
-  // Dynamically add all required game states.
-  Object
-    .entries(states)
-    .forEach(([key, state]) => game.state.add(key, state));
-
+init = function() {
+  var game, state;
+  game = new Phaser.Game(config);
+  for (state in states) {
+    game.state.add(state, states[state]);
+  }
   game.state.start('Boot');
-
   return game;
-}
+};
+
+export {
+  init
+};
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5saXRjb2ZmZWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBUUMsSUFBQTs7QUFBQSxPQUFBOztBQUlBLE9BQU8sQ0FBQSxVQUFQLE1BQUE7O0FBQ0EsT0FBTyxDQUFBLFVBQVAsTUFBQTs7QUFJQSxJQUFBLEdBQU8sUUFBQSxDQUFBLENBQUE7QUFDTixNQUFBO0VBQUEsSUFBQSxHQUFPLElBQUksTUFBTSxDQUFDLElBQVgsQ0FBZ0IsTUFBaEI7QUFDUCxPQUFBLGVBQUE7SUFBQSxJQUFJLENBQUMsS0FBSyxDQUFDLEdBQVgsQ0FBZSxLQUFmLEVBQXNCLE1BQU8sQ0FBQSxLQUFBLENBQTdCO0FBQUE7RUFDQSxJQUFJLENBQUMsS0FBSyxDQUFDLEtBQVgsQ0FBaUIsTUFBakI7U0FFQTtBQUxNOztBQVNQLE9BQUE7RUFBUyxJQUFUIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbIiNHYW1lIEVudHJ5IFBvaW50XG5cblRoaXMgaXMgdGhlIGdhbWUgaW5pdGlhbGl6YXRpb24gcm91dGluZSAuLi5cblxuIyMjIEltcG9ydHNcblxuV2UnbGwgbmVlZCB0byBpbXBvcnQgdGhlIGJhYmVsLXBvbHlmaWxsXG5cblx0aW1wb3J0ICdiYWJlbC1wb2x5ZmlsbCdcblxuTm93IGxldCdzIGltcG9ydCBvdXIgY29uZmlndXJhdGlvbiBhbmQgZ2FtZSBzdGF0ZXNcblxuXHRpbXBvcnQgKiBhcyBjb25maWcgZnJvbSAnLi9jb25maWcnXG5cdGltcG9ydCAqIGFzIHN0YXRlcyBmcm9tICcuL3N0YXRlcydcblxuS2lja29mZiFcblxuXHRpbml0ID0gKCkgLT5cblx0XHRnYW1lID0gbmV3IFBoYXNlci5HYW1lIGNvbmZpZ1xuXHRcdGdhbWUuc3RhdGUuYWRkIHN0YXRlLCBzdGF0ZXNbc3RhdGVdIGZvciBzdGF0ZSBvZiBzdGF0ZXNcblx0XHRnYW1lLnN0YXRlLnN0YXJ0ICdCb290J1xuXG5cdFx0Z2FtZVxuXG5Nb2R1bGUgRXhwb3J0IC4uLlxuXG5cdGV4cG9ydCB7IGluaXQgfVxuIl19

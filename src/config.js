@@ -1,34 +1,14 @@
-/*
- * `config` module
- * ===============
- *
- * The game instance settings.
- */
+var settings;
 
-//  The game canvas dimensions.
-export const width = 640;
-export const height = 480;
+settings = {
+  width: 640,
+  height: 480,
+  renderer: Phaser.AUTO,
+  resolution: 1
+};
 
-//  Choose the rendering method. Recommended values are:
-//  - WEBGL: Use WebGL rendering;
-//  - CANVAS: Use 'context2D' based rendering;
-//  - AUTO: Phaser will choose, based on the device capabilities, between the
-//          former rendering methods.
-export const renderer = Phaser.AUTO;
+export {
+  settings
+};
 
-//  Declare the pixel density of the game graphics.
-export const resolution = 1;
-
-//  Uncomment to disable texture anti-aliasing. Great for pixel art.
-// export const antialias = false;
-
-//  Uncomment to enable WebGL multi-texture features.
-// export const multiTexture = true;
-
-//  Uncomment if you desire to render your game in a transparent canvas
-//  element.
-// export const transparent = true;
-
-//  Uncomment to disable the Phaser debugging API.
-//  TODO: Automate the production build to conditionally enable this flag.
-// export const enableDebug = false;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNvbmZpZy5saXRjb2ZmZWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBRUMsSUFBQTs7QUFBQSxRQUFBLEdBQVc7RUFJVixLQUFBLEVBQU8sR0FKRztFQUtWLE1BQUEsRUFBUSxHQUxFO0VBU1YsUUFBQSxFQUFVLE1BQU0sQ0FBQyxJQVRQO0VBYVYsVUFBQSxFQUFZLENBYkY7OztBQWtCWCxPQUFBO0VBQVMsUUFBVCIsImZpbGUiOiJjb25maWcuanMiLCJzb3VyY2VzQ29udGVudCI6WyJHYW1lIENvbmZpZyBzZXR0aW5ncyBoZXJlIC4uLlxuXG5cdHNldHRpbmdzID0ge1xuXG5HYW1lIENhbnZhcyBEaW1lbnNpb25zXG5cblx0XHR3aWR0aDogNjQwXG5cdFx0aGVpZ2h0OiA0ODBcblxuUGhhc2VyLkFVVE8gY2hvb3NlcyB0aGUgYmVzdCByZW5kZXIgY3R4IGJhc2VkIG9uIHRoZSBkZXZpY2VcblxuXHRcdHJlbmRlcmVyOiBQaGFzZXIuQVVUT1xuXG5QaXhlbCBEZW5zaXR5XG5cblx0XHRyZXNvbHV0aW9uOiAxXG5cdH1cblxuTGV0J3MgZXhwb3J0IHRoZSBNb2R1bGVcblxuXHRleHBvcnQgeyBzZXR0aW5ncyB9XG4iXX0=
