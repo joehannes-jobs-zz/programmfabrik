@@ -10,7 +10,7 @@ We'll need to import the babel-polyfill
 
 Now let's import our configuration and game states
 
-	import * as config from './config'
+	import { settings as config } from './config'
 	import * as states from './states'
 
 Kickoff!

@@ -17,7 +17,7 @@ Main Game State
 			@t3Board.addTilesetImage 'tilemap', 'tilemap', 64, 64
 
 			@boardLayer = @t3Board.createLayer 0
-			@boardLayer.resizeWorld()
+			#@boardLayer.resizeWorld()
 			@physics.startSystem Phaser.Physics.ARCADE
 
 			@cursors = @input.keyboard.createCursorKeys()
