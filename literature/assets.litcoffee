@@ -13,6 +13,6 @@ Let there be a splash-screen
 Plus Game Assets ...
 
 	export gameAssets = [{
-		key: 'phaser',
+		key: 'tilemap',
 		type: 'image'
 	}]
