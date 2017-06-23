@@ -8,8 +8,11 @@ Load Assets and display a splash-screen
 			@load.pack 'gameAssets', null, { gameAssets }
 
 		create: () ->
-			@state.start 'Game'
+			setTimeout @state.start.bind(@state, 'Game'), 3000
 
 		showSplashScreen: () ->
 			@add.image 0, 0, 'splash-screen'
-			@load.setPreloadSprite @add.image 82, 282, 'progress-bar'
+
+			loaderani = @add.tileSprite 275, 300, 100, 100, 'progress-bar'
+			loaderani.animations.add 'spin'
+			loaderani.animations.play 'spin', 32, true

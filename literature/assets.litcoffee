@@ -7,12 +7,14 @@ Let there be a splash-screen
 		type: 'image'
 	}, {
 		key: 'progress-bar'
-		type: 'image'
+		type: 'spritesheet'
+		frameWidth: 100
+		frameHeight: 100
 	}]
 
 Plus Game Assets ...
 
 	export gameAssets = [{
-		key: 'phaser',
+		key: 'tilemap',
 		type: 'image'
 	}]

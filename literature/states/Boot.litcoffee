@@ -14,6 +14,7 @@ Adjust how many pointers are checked for input events
 			@input.maxPointers = 1
 
 			@scale.pageAlignHorizontally = true
+			@scale.pageAlignVertically = true
 			@scale.scaleMode = Phaser.ScaleManager.NO_SCALE
 
 If the game canvas loses focus, keep the game loop running
