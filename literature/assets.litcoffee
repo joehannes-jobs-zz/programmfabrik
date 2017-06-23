@@ -10,7 +10,15 @@ Let there be a splash-screen
 		type: 'spritesheet'
 		frameWidth: 100
 		frameHeight: 100
+	},{
+		key: 'knight3'
+		type: 'image'
 	}]
+
+Assets for our Mode Selection State
+
+	export modeAssets = []
+
 
 Plus Game Assets ...
 
