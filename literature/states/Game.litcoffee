@@ -1,6 +1,9 @@
 Main Game State
 
 	export default class Game extends Phaser.State
+		init: (mode) ->
+			if mode is 0 then @mode = 'MULTI'
+			else if mode is 1 then @mode = 'SINGLE'
 		create: () ->
 			range = [1..9]
 			field = 0
