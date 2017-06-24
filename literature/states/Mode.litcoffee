@@ -41,8 +41,8 @@ The Mode state displays and makes available the possibility of
 				p.ref.tint = Math.random() * 0xFFFFFF
 				if p.active then @paintButton p.button, p.y, Math.random() * 0xFFFFFF, 0.5
 				else @paintButton p.button, p.y
-			if @players[0].button.input.justReleased() then @select 'multi'
-			else if @players[1].button.input.justReleased() then @select 'single'
+			if @players[0].button.input.justReleased() then @select()
+			else if @players[1].button.input.justReleased() then @select 1
 			else if @input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) or @input.keyboard.isDown Phaser.KeyCode.ENTER
 				@select k if p.active for k, p of @players
 
@@ -54,6 +54,6 @@ The Mode state displays and makes available the possibility of
 			button.beginFill color, opacity
 			button.drawRect 0, y, 650, 100
 
-		select: (which) ->
+		select: (which = 0) ->
 			p.button.inputEnabled = false for k, p of @players
-			@state.start 'Game'
+			@state.start 'Game', true, false, which
