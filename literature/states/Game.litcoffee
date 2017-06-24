@@ -17,13 +17,13 @@ Main Game State
 			@t3Board.addTilesetImage 'tilemap', 'tilemap', 64, 64
 
 			@boardLayer = @t3Board.createLayer 0
-			#@boardLayer.resizeWorld()
+			@boardLayer.resizeWorld()
 			@physics.startSystem Phaser.Physics.ARCADE
 
 			@cursors = @input.keyboard.createCursorKeys()
 
 		update: () ->
-			if @cursors.left.isDown then game.camera.x--
-			if @cursors.right.isDown then game.camera.x++
-			if @cursors.up.isDown then game.camera.y--
-			if @cursors.down.isDown then game.camer.y++
+			if @cursors.left.isDown then @camera.x--
+			if @cursors.right.isDown then @camera.x++
+			if @cursors.up.isDown then @camera.y--
+			if @cursors.down.isDown then @camera.y++
