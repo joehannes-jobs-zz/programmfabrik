@@ -28,12 +28,16 @@ That's the game stone for the active player
 
 			@attachValueItem @players[0]
 			@input.enabled = true
+			@input.mousePointer.leftButton.onUp.add @gameMove, @
 
 		update: () ->
+			if @atomicBusy then return
+			@atomicBusy = true
 			for k, p of @players
 				if p.active is true
 					if k is 1 and @mode = 'SINGLE' then @intelligentMove()
 					else @makeUpdate p
+			@atomicBusy = false
 
 		createBoard: () ->
 			field = 0
@@ -94,15 +98,35 @@ or drop it in place and switch players
 			x = @input.x - 32
 			y = @input.y - 32
 			p.item.position.set x, y
-			if @detectValidField(p.item) > 0
-				p.item.alpha = 1
-				#if @input.
+			field = @detectValidField p.item
+			if field > 0 then p.item.alpha = 1
 			else p.item.alpha = 0.5
 
 		toggleActive: () ->
 			for k, p of @players
-				p.active = !p.active
-				@attachValueItem p if p.active and (k is 0 or @mode is 'MULTI')
+				do (k, p) =>
+					if p.active is false
+						@attachValueItem(p) if k is 0 or @mode is 'MULTI'
+						p.active = true
+					else
+						p.active = false
+
+		gameMove: () ->
+			for k, p of @players
+				if p.active
+					if (validField = @detectValidField p.item) > 0
+						p.val.push validField
+						p.item.alpha = 1
+						if @gameHasWinner() then return @gameWon()
+						else
+							@resetPlayer k
+							@toggleActive()
+
+		gameHasWinner: () ->
+			false
+
+		gameWon: () ->
+			false
 
 Attach a new gamestone to the mouse
 
@@ -114,12 +138,18 @@ Collision detection - is the gamestone over a valid field --
 can we drop it if the user clicks?
 
 		detectValidField: (spriteA) ->
-			truthy = 0
 			boundsA = spriteA.getBounds()
 
 			for k, sprite of @hitAreas
 				boundsB = sprite.getBounds()
-				if Phaser.Rectangle.intersects boundsA, boundsB
-					truthy = k + 1
-					return truthy
-			truthy
+				if Phaser.Rectangle.intersects(boundsA, boundsB)
+					vals = @players[0].val.concat @players[1].val
+					for _k, p of @players
+						return +k + 1 unless (+k + 1) in vals
+			0
+
+		resetPlayer: (k) ->
+			@players[k] =
+				val: @players[k].val
+				active: @players[k].active
+				valItem: @players[k].valItem
