@@ -11,7 +11,7 @@ Path to the Assets ...
 
 Adjust how many pointers are checked for input events
 
-			@input.maxPointers = 1
+			@input.maxPointers = 2
 
 			@scale.pageAlignHorizontally = true
 			@scale.pageAlignVertically = true

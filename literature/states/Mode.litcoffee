@@ -38,16 +38,23 @@ The Mode state displays and makes available the possibility of
 			else if @cursors.down.isDown and @players[0].active then @toggleActive()
 
 			for k, p of @players
-				p.ref.tint = Math.random() * 0xFFFFFF
-				if p.active then @paintButton p.button, p.y, Math.random() * 0xFFFFFF, 0.5
-				else @paintButton p.button, p.y
+				if (not p.active) and p.button.input.justOver()
+					console.log 'pointerOver'
+					@toggleActive()
+
+			for k, p of @players
+				do (k, p) =>
+					p.ref.tint = Math.random() * 0xFFFFFF
+					if p.active then @paintButton p.button, p.y, Math.random() * 0xFFFFFF, 0.5
+					else @paintButton p.button, p.y
 			if @players[0].button.input.justReleased() then @select()
 			else if @players[1].button.input.justReleased() then @select 1
 			else if @input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) or @input.keyboard.isDown Phaser.KeyCode.ENTER
 				@select k if p.active for k, p of @players
 
 		toggleActive: () ->
-			player.active = !player.active for key, player of @players
+			for key, player of @players
+				player.active = !player.active
 
 		paintButton: (button, y, color = 0xFFFFFF, opacity = 0.1) ->
 			button.clear()
