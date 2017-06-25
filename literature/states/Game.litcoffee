@@ -1,12 +1,13 @@
 Main Game State
 
 	export default class Game extends Phaser.State
-		init: (mode) ->
+		init: (mode, ai) ->
 			if mode is 0 then @mode = 'MULTI'
-			else if mode is 1 then @mode = 'SINGLE'
+			else if mode is 1
+				@mode = 'SINGLE'
+				@intelligence = ai ? 0
 			@players = [{val: [], active: true, valItem: 'x' }, {val: [], active: false, valItem: 'o' }]
 			@input.mousePointer.leftButton.onUp.add @gameMove, @
-			console.log 'hello'
 
 		create: () ->
 
@@ -52,7 +53,7 @@ That's the game stone for the active player
 			@atomicBusy = true
 			for k, p of @players
 				if p.active is true
-					if k is 1 and @mode = 'SINGLE' then @intelligentMove()
+					if +k is 1 and @mode is 'SINGLE' then @intelligentMove @intelligence
 					else @makeUpdate p
 			@atomicBusy = false
 
@@ -104,9 +105,23 @@ Create a Tile Layer and position it
 
 The AI Algorithm
 
-		intelligentMove: () ->
-			console.log 'algorithm'
-			@toggleActive()
+		intelligentMove: (ai) ->
+			if ai > 0 then console.log 'smart'
+			else @hogusBogusMove()
+
+		hogusBogusMove: () ->
+			hb = @rnd.between(1, 9)
+			if hb in @players[0].val or hb in @players[1].val
+				return @hogusBogusMove()
+			else
+				if hb % 3 is 1 then x = -96
+				if hb % 3 is 2 then x = -32
+				if hb % 3 is 0 then x = 32
+				if hb < 4 then y = -96
+				else if hb < 7 then y = -32
+				else y = 32
+				@players[1].item.position.set @world.centerX + x, @world.centerY + y
+				return @gameMoveConcrete @players[1], 1, hb
 
 Stick the gamestone to the mouse --
 or drop it in place and switch players
@@ -123,7 +138,7 @@ or drop it in place and switch players
 			for k, p of @players
 				do (k, p) =>
 					if p.active is false
-						@attachValueItem(p) if k is 0 or @mode is 'MULTI'
+						@attachValueItem p
 						p.active = true
 					else
 						p.active = false
@@ -133,17 +148,20 @@ or drop it in place and switch players
 				do (k, p) =>
 					if p.active
 						if (validField = @detectValidField p.item) > 0
-							p.val.push validField
-							p.item.alpha = 1
-							if @gameHasWinner k
-								@resetPlayer k
-								@gameWon k
-							else if @gameIsDraw()
-								@resetPlayer k
-								@gameWon -1
-							else
-								@resetPlayer k
-								@toggleActive()
+							@gameMoveConcrete p, k, validField
+
+		gameMoveConcrete: (p, k, validField) ->
+			p.val.push validField
+			p.item.alpha = 1
+			if @gameHasWinner k
+				@resetPlayer k
+				@gameWon k
+			else if @gameIsDraw()
+				@resetPlayer k
+				@gameWon -1
+			else
+				@resetPlayer k
+				@toggleActive()
 
 		gameHasWinner: (k) ->
 			p = @players[k]
