@@ -4,8 +4,8 @@ Game Config settings here ...
 
 Game Canvas Dimensions
 
-		width: 640
-		height: 640
+		width: 740
+		height: 740
 
 Phaser.AUTO chooses the best render ctx based on the device
 

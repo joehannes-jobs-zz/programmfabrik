@@ -31,7 +31,8 @@ That's the game stone for the active player
 			@input.mousePointer.leftButton.onUp.add @gameMove, @
 
 		update: () ->
-			if @atomicBusy then return
+			@w?.ref.tint = Math.random() * 0xFFFFFF
+			if @atomicBusy or @gameStopped then return
 			@atomicBusy = true
 			for k, p of @players
 				if p.active is true
@@ -113,20 +114,43 @@ or drop it in place and switch players
 
 		gameMove: () ->
 			for k, p of @players
-				if p.active
-					if (validField = @detectValidField p.item) > 0
-						p.val.push validField
-						p.item.alpha = 1
-						if @gameHasWinner() then return @gameWon()
-						else
-							@resetPlayer k
-							@toggleActive()
+				do (k, p) =>
+					if p.active
+						if (validField = @detectValidField p.item) > 0
+							p.val.push validField
+							p.item.alpha = 1
+							if @gameHasWinner k
+								@resetPlayer k
+								@gameWon k
+							else
+								@resetPlayer k
+								@toggleActive()
 
-		gameHasWinner: () ->
-			false
+		gameHasWinner: (k) ->
+			p = @players[k]
+			if p.active and
+			(1 in p.val and 2 in p.val and 3 in p.val) or
+			(4 in p.val and 5 in p.val and 6 in p.val) or
+			(7 in p.val and 8 in p.val and 9 in p.val) or
+			(1 in p.val and 5 in p.val and 9 in p.val) or
+			(3 in p.val and 5 in p.val and 7 in p.val) or
+			(1 in p.val and 4 in p.val and 7 in p.val) or
+			(2 in p.val and 5 in p.val and 8 in p.val) or
+			(3 in p.val and 6 in p.val and 9 in p.val)
+				true
+			else false
 
-		gameWon: () ->
-			false
+		gameWon: (k) ->
+			@gameStopped = true
+
+			@w = {}
+			@w.font = @add.retroFont 'knight3', 31, 25, Phaser.RetroFont.TEXT_SET6, 10, 1, 1
+			@w.font.text = 'Player ' + @players[k].valItem + ' won!!!'
+			@w.ref = @add.image @world.centerX, 700, @w.font
+			@w.ref.tint = Math.random() * 0xFFFFFF
+			@w.ref.anchor.set 0.5, 1
+
+			true
 
 Attach a new gamestone to the mouse
 
