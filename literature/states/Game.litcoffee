@@ -5,8 +5,22 @@ Main Game State
 			if mode is 0 then @mode = 'MULTI'
 			else if mode is 1 then @mode = 'SINGLE'
 			@players = [{val: [], active: true, valItem: 'x' }, {val: [], active: false, valItem: 'o' }]
+			@input.mousePointer.leftButton.onUp.add @gameMove, @
+			console.log 'hello'
 
 		create: () ->
+
+Paint Game Reset Button
+
+			@resetButton = @add.graphics()
+			@resetButton.inputEnabled = true
+			@paintResetButton @resetButton
+			@rBT = {}
+			@rBT.font = @add.retroFont 'knight3', 31, 25, Phaser.RetroFont.TEXT_SET6, 10, 1, 1
+			@rBT.font.text = 'Reset Game'
+			@rBT.ref = @add.image @world.centerX, 50, @rBT.font
+			@rBT.ref.anchor.set 0.5, 1
+			@paintResetButtonText @rBT
 
 Just a special var for the nr of play fields
 
@@ -31,7 +45,9 @@ That's the game stone for the active player
 			@input.mousePointer.leftButton.onUp.add @gameMove, @
 
 		update: () ->
-			@w?.ref.tint = Math.random() * 0xFFFFFF
+			@paintPlayerWon()
+			@paintResetButtonText @rBT
+			@resetButtonHandling()
 			if @atomicBusy or @gameStopped then return
 			@atomicBusy = true
 			for k, p of @players
@@ -142,6 +158,7 @@ or drop it in place and switch players
 
 		gameWon: (k) ->
 			@gameStopped = true
+			@input.mousePointer.leftButton.onUp.removeAll @
 
 			@w = {}
 			@w.font = @add.retroFont 'knight3', 31, 25, Phaser.RetroFont.TEXT_SET6, 10, 1, 1
@@ -151,6 +168,9 @@ or drop it in place and switch players
 			@w.ref.anchor.set 0.5, 1
 
 			true
+
+		paintPlayerWon: () ->
+			@w?.ref.tint = Math.random() * 0xFFFFFF
 
 Attach a new gamestone to the mouse
 
@@ -177,3 +197,27 @@ can we drop it if the user clicks?
 				val: @players[k].val
 				active: @players[k].active
 				valItem: @players[k].valItem
+
+		paintResetButton: (button, y = 0, color = 0xFFFFFF, opacity = 0.3) ->
+			button.clear()
+			button.beginFill color, opacity
+			button.drawRect 0, y, @world.width, 70
+
+		paintResetButtonText: (rBT) ->
+			rBT.ref.tint = Math.random() * 0xFFFFFF
+
+		resetGame: () ->
+			@state.start 'Mode'
+
+		resetButtonHandling: () ->
+			@resetGame() if @resetButton.input.justReleased()
+
+		shutdown: () ->
+			@resetPlayer i for i, p of @players
+			@resetButton = null
+			@rBT = null
+			@w = null
+			@players = []
+			@input.mousePointer.leftButton.onUp.removeAll @
+			@atomicBusy = false
+			@gameStopped = false
