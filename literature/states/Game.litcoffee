@@ -202,7 +202,9 @@ or drop it in place and switch players
 			else
 				@resetPlayer k
 				@toggleActive()
-			@pushHistory()
+			if (@mode is 'MULTI') or (+k is 0)
+				console.log 'pushHistory'
+				@pushHistory()
 
 		gameHasWinner: (k) ->
 			p = @players[k]

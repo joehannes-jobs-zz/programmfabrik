@@ -64,4 +64,4 @@ The Mode state displays and makes available the possibility of
 
 		select: (which = 0) ->
 			p.button.inputEnabled = false for k, p of @players
-			@state.start 'Game', true, false, which
+			@state.start 'Game', true, false, { mode: which }
