@@ -138,6 +138,9 @@ or drop it in place and switch players
 							if @gameHasWinner k
 								@resetPlayer k
 								@gameWon k
+							else if @gameIsDraw()
+								@resetPlayer k
+								@gameWon -1
 							else
 								@resetPlayer k
 								@toggleActive()
@@ -156,13 +159,21 @@ or drop it in place and switch players
 				true
 			else false
 
+		gameIsDraw: () ->
+			moves = 0
+			(moves += p.val.length) for k, p of @players
+			if moves > 8 then true
+			else false
+
 		gameWon: (k) ->
 			@gameStopped = true
 			@input.mousePointer.leftButton.onUp.removeAll @
 
 			@w = {}
 			@w.font = @add.retroFont 'knight3', 31, 25, Phaser.RetroFont.TEXT_SET6, 10, 1, 1
-			@w.font.text = 'Player ' + @players[k].valItem + ' won!!!'
+			if k > -1
+				@w.font.text = 'Player ' + @players[k].valItem + ' won!!!'
+			else @w.font.text = 'DRAW!!!'
 			@w.ref = @add.image @world.centerX, 700, @w.font
 			@w.ref.tint = Math.random() * 0xFFFFFF
 			@w.ref.anchor.set 0.5, 1
