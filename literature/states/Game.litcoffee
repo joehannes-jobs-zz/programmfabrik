@@ -1,12 +1,39 @@
 Main Game State
 
 	export default class Game extends Phaser.State
-		init: (mode, ai) ->
-			if mode is 0 then @mode = 'MULTI'
-			else if mode is 1
+		init: (opts) ->
+
+This is the obj where all the moved sprites will be stored
+
+			@itemStack = []
+
+Single player or multi player??
+
+			if opts.mode is 0 then @mode = 'MULTI'
+			else if opts.mode is 1
 				@mode = 'SINGLE'
-				@intelligence = ai ? 0
-			@players = [{val: [], active: true, valItem: 'x' }, {val: [], active: false, valItem: 'o' }]
+				@intelligence = opts.ai ? 0
+
+The State Obj
+
+			if opts.players then @players = opts.players
+			else @players = [{ val: [], active: true, valItem: 'x' }, { val: [], active: false, valItem: 'o' }]
+
+Push the initial State to the Browser History
+
+			window.onpopstate = (event) =>
+				if event.state is null then @state.start 'Mode'
+				else
+					@shutdown()
+					@state.start @state.current, true, false, {
+						mode: event.state.mode
+						ai: event.state.intel
+						players: event.state.players
+					}
+
+Listen on Mouse Pointer Event LeftClick
+
+			@input.enabled = true
 			@input.mousePointer.leftButton.onUp.add @gameMove, @
 
 		create: () ->
@@ -41,9 +68,18 @@ Manual says that's a good idea if you're using a tilemap
 
 That's the game stone for the active player
 
-			@attachValueItem @players[0]
-			@input.enabled = true
-			@input.mousePointer.leftButton.onUp.add @gameMove, @
+			for k, p of @players
+				do (k, p) =>
+					console.log p
+					@attachValueItem p if p.active
+
+Finally, repaint if history was called via back button
+
+			for k, p of @players
+				for _k, item of p.val
+					temp = { valItem: p.valItem }
+					@attachValueItem temp
+					@paintItem item, k, temp
 
 		update: () ->
 			@paintPlayerWon()
@@ -52,6 +88,7 @@ That's the game stone for the active player
 			if @atomicBusy or @gameStopped then return
 			@atomicBusy = true
 			for k, p of @players
+				do (k, p) =>
 				if p.active is true
 					if +k is 1 and @mode is 'SINGLE' then @intelligentMove @intelligence
 					else @makeUpdate p
@@ -114,14 +151,18 @@ The AI Algorithm
 			if hb in @players[0].val or hb in @players[1].val
 				return @hogusBogusMove()
 			else
-				if hb % 3 is 1 then x = -96
-				if hb % 3 is 2 then x = -32
-				if hb % 3 is 0 then x = 32
-				if hb < 4 then y = -96
-				else if hb < 7 then y = -32
-				else y = 32
-				@players[1].item.position.set @world.centerX + x, @world.centerY + y
+				@paintItem hb
 				return @gameMoveConcrete @players[1], 1, hb
+
+		paintItem: (hb, k = 1, temp) ->
+			if hb % 3 is 1 then x = -80
+			if hb % 3 is 2 then x = -30
+			if hb % 3 is 0 then x = 40
+			if hb < 4 then y = -80
+			else if hb < 7 then y = -22
+			else y = 42
+			if temp then temp.item.alpha = 1
+			(temp or @players[k]).item.position.set @world.centerX + x, @world.centerY + y
 
 Stick the gamestone to the mouse --
 or drop it in place and switch players
@@ -146,9 +187,8 @@ or drop it in place and switch players
 		gameMove: () ->
 			for k, p of @players
 				do (k, p) =>
-					if p.active
-						if (validField = @detectValidField p.item) > 0
-							@gameMoveConcrete p, k, validField
+					if p.active and (validField = @detectValidField p.item) > 0
+						@gameMoveConcrete p, k, validField
 
 		gameMoveConcrete: (p, k, validField) ->
 			p.val.push validField
@@ -162,6 +202,9 @@ or drop it in place and switch players
 			else
 				@resetPlayer k
 				@toggleActive()
+			if (@mode is 'MULTI') or (+k is 0)
+				console.log 'pushHistory'
+				@pushHistory()
 
 		gameHasWinner: (k) ->
 			p = @players[k]
@@ -204,7 +247,9 @@ or drop it in place and switch players
 Attach a new gamestone to the mouse
 
 		attachValueItem: (p) ->
-			p.item = @add.sprite @input.x - 32, @input.y - 32, p.valItem
+			x = -32 + (@input.x ? 32)
+			y = -32 + (@input.y ? 32)
+			p.item = @add.sprite x, y, p.valItem
 			p.item.alpha = .5
 
 Collision detection - is the gamestone over a valid field --
@@ -222,6 +267,7 @@ can we drop it if the user clicks?
 			0
 
 		resetPlayer: (k) ->
+			@itemStack.push @players[k].item
 			@players[k] =
 				val: @players[k].val
 				active: @players[k].active
@@ -243,10 +289,19 @@ can we drop it if the user clicks?
 
 		shutdown: () ->
 			@resetPlayer i for i, p of @players
+			for k, sprite of @itemStack
+				sprite?.destroy()
+
 			@resetButton = null
 			@rBT = null
 			@w = null
-			@players = []
 			@input.mousePointer.leftButton.onUp.removeAll @
 			@atomicBusy = false
 			@gameStopped = false
+
+		pushHistory: () ->
+			players = for k, p of @players
+				val: p.val
+				active: p.active
+				valItem: p.valItem
+			window.history.pushState { players: players, mode: @mode, intel: @intelligence }, '', 'index.html'

@@ -33,13 +33,14 @@ The Mode state displays and makes available the possibility of
 
 			@cursors = @input.keyboard.createCursorKeys()
 
+			window.history.pushState null, '', 'index.html'
+
 		update: () ->
 			if @cursors.up.isDown and @players[1].active then @toggleActive()
 			else if @cursors.down.isDown and @players[0].active then @toggleActive()
 
 			for k, p of @players
 				if (not p.active) and p.button.input.justOver()
-					console.log 'pointerOver'
 					@toggleActive()
 
 			for k, p of @players
@@ -63,4 +64,4 @@ The Mode state displays and makes available the possibility of
 
 		select: (which = 0) ->
 			p.button.inputEnabled = false for k, p of @players
-			@state.start 'Game', true, false, which
+			@state.start 'Game', true, false, { mode: which }
