@@ -25,4 +25,13 @@ Plus Game Assets ...
 	export gameAssets = [{
 		key: 'tilemap',
 		type: 'image'
+	},{
+		key: 'x'
+		type: 'image'
+	},{
+		key: 'o',
+		type: 'image'
+	},{
+		key: 'hitarea',
+		type: 'image'
 	}]

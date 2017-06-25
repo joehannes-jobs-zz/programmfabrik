@@ -8,7 +8,7 @@ Load Assets and display a splash-screen
 			@load.pack 'modeAssets', null, { modeAssets }
 
 		create: () ->
-			setTimeout @state.start.bind(@state, 'Mode'), 3000
+			setTimeout @state.start.bind(@state, 'Mode'), 2000
 
 		showSplashScreen: () ->
 			@add.image 0, 0, 'splash-screen'

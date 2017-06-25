@@ -52,7 +52,7 @@ The Mode state displays and makes available the possibility of
 		paintButton: (button, y, color = 0xFFFFFF, opacity = 0.1) ->
 			button.clear()
 			button.beginFill color, opacity
-			button.drawRect 0, y, 640, 100
+			button.drawRect 0, y, @world.width, 100
 
 		select: (which = 0) ->
 			p.button.inputEnabled = false for k, p of @players
