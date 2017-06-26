@@ -14,8 +14,13 @@ The Mode state displays and makes available the possibility of
 				offset: 65
 				active: true
 			}, {
-				title: 'Player 1 VS Computer'
-				y: 350
+				title: 'Player 1 VS Randummy'
+				y: 300
+				offset: 65
+				active: false
+			}, {
+				title: 'Player 1 VS DeepThought'
+				y: 450
 				offset: 65
 				active: false
 			}]
@@ -31,31 +36,29 @@ The Mode state displays and makes available the possibility of
 					p.ref.tint = Math.random() * 0xFFFFFF
 					p.ref.anchor.set 0.5, 1
 
-			@cursors = @input.keyboard.createCursorKeys()
-
 			window.history.pushState null, '', 'index.html'
 
 		update: () ->
-			if @cursors.up.isDown and @players[1].active then @toggleActive()
-			else if @cursors.down.isDown and @players[0].active then @toggleActive()
-
 			for k, p of @players
-				if (not p.active) and p.button.input.justOver()
-					@toggleActive()
+				do (k, p) =>
+					if (not p.active) and p.button.input.justOver()
+						@toggleActive +k
 
 			for k, p of @players
 				do (k, p) =>
 					p.ref.tint = Math.random() * 0xFFFFFF
 					if p.active then @paintButton p.button, p.y, Math.random() * 0xFFFFFF, 0.5
 					else @paintButton p.button, p.y
-			if @players[0].button.input.justReleased() then @select()
-			else if @players[1].button.input.justReleased() then @select 1
-			else if @input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) or @input.keyboard.isDown Phaser.KeyCode.ENTER
-				@select k if p.active for k, p of @players
 
-		toggleActive: () ->
+			for k, p of @players
+				if p.button.input.justReleased() then @select +k
+				else if  p.active and (@input.keyboard.isDown(Phaser.KeyCode.SPACEBAR) or @input.keyboard.isDown(Phaser.KeyCode.ENTER))
+					@select +k
+
+		toggleActive: (k) ->
 			for key, player of @players
-				player.active = !player.active
+				if k is +key then player.active = true
+				else player.active = false
 
 		paintButton: (button, y, color = 0xFFFFFF, opacity = 0.1) ->
 			button.clear()
@@ -63,5 +66,8 @@ The Mode state displays and makes available the possibility of
 			button.drawRect 0, y, @world.width, 100
 
 		select: (which = 0) ->
+			if which isnt 0
+				ai = which - 1
+				which = 1
 			p.button.inputEnabled = false for k, p of @players
-			@state.start 'Game', true, false, { mode: which }
+			@state.start 'Game', true, false, { mode: which, ai: ai }

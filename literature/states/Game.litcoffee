@@ -143,7 +143,11 @@ Create a Tile Layer and position it
 The AI Algorithm
 
 		intelligentMove: (ai) ->
-			if ai > 0 then console.log 'smart'
+			if ai > 0
+				if ai == 1
+					@weighedMove()
+				else if ai == 2
+					@perfectMove()
 			else @hogusBogusMove()
 
 		hogusBogusMove: () ->
@@ -153,6 +157,56 @@ The AI Algorithm
 			else
 				@paintItem hb
 				return @gameMoveConcrete @players[1], 1, hb
+
+		weighedMove: () ->
+			preferred = [[5],[1,3,9,7],[2,6,8,4]];
+			possibleWins = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+			winStrategy = []
+			protectStrategy = []
+			#proceedStrategy = []
+			for k, strategy of possibleWins
+				do (k, strategy) =>
+					matchesP = 0
+					matchesW = 0
+					sP = strategy.filter (el, i, arr) => not (el in @players[0].val)
+					sW = strategy.filter (el, i, arr) => not (el in @players[0].val)
+					if sP.length is 1
+						for _k, val of @players[1].val
+							if val in sP then matchesP++
+					if sW.length is 3
+						for _k, val of @players[1].val
+							if val in strategy then matchesW++
+					if matchesP is 0 and sP.length is 1 then protectStrategy.push strategy
+					if matchesW is 2 then winStrategy.push strategy
+					#else if matches is 1 then proceedStrategy.push strategy
+			if winStrategy.length
+				console.log 'win'
+				console.log winStrategy.toString()
+				victory = winStrategy[@rnd.between 0, winStrategy.length - 1]
+				for k, val of @players[1].val
+					for _k, _val of victory
+						if _val == val then victory.splice _k, 1
+				@paintItem victory[0]
+				return @gameMoveConcrete @players[1], 1, victory[0]
+			if protectStrategy.length
+				console.log 'protect'
+				console.log protectStrategy.toString()
+				protect = protectStrategy[@rnd.between 0, protectStrategy.length - 1]
+				for k, val of @players[0].val
+					for _k, _val of protect
+						if _val == val then protect.splice _k, 1
+				@paintItem protect[0]
+				return @gameMoveConcrete @players[1], 1, protect[0]
+			console.log 'smart'
+			vals = [].concat @players[0].val, @players[1].val
+			for k, p of preferred
+				for _k, _p of p
+					if not (_p in vals)
+						console.log _p
+						@paintItem _p
+						return @gameMoveConcrete @players[1], 1, _p
+
+		perfectMove: () ->
 
 		paintItem: (hb, k = 1, temp) ->
 			if hb % 3 is 1 then x = -80
