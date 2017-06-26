@@ -180,8 +180,6 @@ The AI Algorithm
 					if matchesW is 2 then winStrategy.push strategy
 					#else if matches is 1 then proceedStrategy.push strategy
 			if winStrategy.length
-				console.log 'win'
-				console.log winStrategy.toString()
 				victory = winStrategy[@rnd.between 0, winStrategy.length - 1]
 				for k, val of @players[1].val
 					for _k, _val of victory
@@ -189,20 +187,16 @@ The AI Algorithm
 				@paintItem victory[0]
 				return @gameMoveConcrete @players[1], 1, victory[0]
 			if protectStrategy.length
-				console.log 'protect'
-				console.log protectStrategy.toString()
 				protect = protectStrategy[@rnd.between 0, protectStrategy.length - 1]
 				for k, val of @players[0].val
 					for _k, _val of protect
 						if _val == val then protect.splice _k, 1
 				@paintItem protect[0]
 				return @gameMoveConcrete @players[1], 1, protect[0]
-			console.log 'smart'
 			vals = [].concat @players[0].val, @players[1].val
 			for k, p of preferred
 				for _k, _p of p
 					if not (_p in vals)
-						console.log _p
 						@paintItem _p
 						return @gameMoveConcrete @players[1], 1, _p
 
@@ -257,7 +251,6 @@ or drop it in place and switch players
 				@resetPlayer k
 				@toggleActive()
 			if (@mode is 'MULTI') or (+k is 0)
-				console.log 'pushHistory'
 				@pushHistory()
 
 		gameHasWinner: (k) ->
