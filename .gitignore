@@ -5,6 +5,8 @@ Thumbs.db
 dist/
 build/
 node_modules/
+src/
+old/
 
 !.git*
 !.babelrc
