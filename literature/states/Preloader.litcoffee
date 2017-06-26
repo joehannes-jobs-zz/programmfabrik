@@ -11,9 +11,9 @@ Load Assets and display a splash-screen
 			setTimeout @state.start.bind(@state, 'Mode'), 2000
 
 		showSplashScreen: () ->
-			@add.image 0, 0, 'splash-screen'
+			@add.image @world.centerX - 320, @world.centerY - 320 , 'splash-screen'
 
-			loaderani = @add.tileSprite 275, 300, 100, 100, 'progress-bar'
+			loaderani = @add.tileSprite 320, 340, 100, 100, 'progress-bar'
 			loaderani.animations.add 'spin'
 			loaderani.animations.play 'spin', 32, true
 
