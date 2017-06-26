@@ -10,18 +10,23 @@ The Mode state displays and makes available the possibility of
 		create: ->
 			@players = [{
 				title: 'Player 1 VS Player 2'
-				y: 150
+				y: 100
 				offset: 65
 				active: true
 			}, {
 				title: 'Player 1 VS Randummy'
-				y: 300
+				y: 250
 				offset: 65
 				active: false
 			}, {
 				title: 'Player 1 VS DeepThought'
-				y: 450
+				y: 400
 				offset: 65
+				active: false
+			}, {
+				title: 'Player 1 VS Deep2'
+				y: 550
+				offset: 64
 				active: false
 			}]
 

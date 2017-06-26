@@ -70,7 +70,6 @@ That's the game stone for the active player
 
 			for k, p of @players
 				do (k, p) =>
-					console.log p
 					@attachValueItem p if p.active
 
 Finally, repaint if history was called via back button
@@ -158,8 +157,7 @@ The AI Algorithm
 				@paintItem hb
 				return @gameMoveConcrete @players[1], 1, hb
 
-		weighedMove: () ->
-			preferred = [[5],[1,3,9,7],[2,6,8,4]];
+		weighedMove: (preferred = [[5],[1,3,9,7],[2,6,8,4]]) ->
 			possibleWins = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 			winStrategy = []
 			protectStrategy = []
@@ -195,12 +193,18 @@ The AI Algorithm
 				return @gameMoveConcrete @players[1], 1, protect[0]
 			vals = [].concat @players[0].val, @players[1].val
 			for k, p of preferred
-				for _k, _p of p
-					if not (_p in vals)
-						@paintItem _p
-						return @gameMoveConcrete @players[1], 1, _p
+				while p.length
+					fun = Math.round @rnd.between 0, p.length - 1
+					if not (p[fun] in vals)
+						@paintItem p[fun]
+						return @gameMoveConcrete @players[1], 1, p[fun]
+					else p.splice fun, 1
 
 		perfectMove: () ->
+			if @players[0].val[0] in [1,3,9,7] and @players[0].val.length is 2
+				@weighedMove [[2,6,8,4],[1,3,9,7]]
+			else
+				@weighedMove()
 
 		paintItem: (hb, k = 1, temp) ->
 			if hb % 3 is 1 then x = -80
